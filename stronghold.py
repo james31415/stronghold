@@ -36,7 +36,7 @@ def stronghold_sets(points, debug=False):
         q = [points[x], points[y]]
         s = solve_system(q)
         if len(filter(lambda x: x < 0, s)) > 0:
-            if p:
+            if debug:
                 print("({}, {}) point to different strongholds.".format(x, y))
 
             for i in range(len(l)):
@@ -51,7 +51,7 @@ def stronghold_sets(points, debug=False):
             else:
                 l = l + [set([y])]
         else:
-            if p:
+            if debug:
                 print("({}, {}) point to same stronghold.".format(x, y))
 
             for i in range(len(l)):
