@@ -89,5 +89,6 @@ if __name__ == "__main__":
         ps = sum(pp)/n
         var = sum([np.dot(q - ps, q - ps) for q in pp])/n
         print("resultant points: {}".format(pp))
-        print("average: {}".format(sum(pp)/n))
-        print("deviation: {}".format(np.sqrt(var)))
+        print("average: {}".format(ps))
+        print("variance: {}".format(var))
+        print("standard deviation: {}".format(np.sqrt(var)))
