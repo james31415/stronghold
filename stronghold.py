@@ -5,6 +5,7 @@ import memoized
 
 def unit(vec):
     return(vec / lin.norm(vec))
+
 @memoized.memoized
 def prod(points, first, second):
     if second < first:
@@ -28,7 +29,7 @@ def solve_system(points):
     s = lin.solve(a, p)
     return(s)
 
-def stronghold_sets(points, p=False):
+def stronghold_sets(points, debug=False):
     n = len(points)
     l = []
     for x, y in itertools.combinations(range(n), 2):
@@ -65,27 +66,28 @@ def stronghold_sets(points, p=False):
                 
     return(l)
 
-points = [{"p": np.array([-223.457, 604.452]), "t": np.array([-233.518, 613.594])},
-        {"p": np.array([-237.718, 547.065]), "t": np.array([-245.433, 558.430])},
-        {"p": np.array([297.584, 746.493]), "t": np.array([287.264, 748.710])}]
+if __name__ == "__main__":
+    points = [{"p": np.array([-223.457, 604.452]), "t": np.array([-233.518, 613.594])},
+            {"p": np.array([-237.718, 547.065]), "t": np.array([-245.433, 558.430])},
+            {"p": np.array([297.584, 746.493]), "t": np.array([287.264, 748.710])}]
 
-points = points + [{"p": np.array([-293.482, 279.496]), "t": np.array([-281.391, 277.522])}]
-n = len(points)
+    points = points + [{"p": np.array([-293.482, 279.496]), "t": np.array([-281.391, 277.522])}]
+    n = len(points)
 
-l = stronghold_sets(points, p=True)
-print(l)
+    l = stronghold_sets(points)
+    print(l)
 
-for pq in l:
-    if len(pq) == 1:
-        continue
+    for pq in l:
+        if len(pq) == 1:
+            continue
 
-    print(pq)
-    ppq = [points[j] for j in pq]
-    s = solve_system(ppq)
-    print("s: {}".format(s))
-    pp = [ppq[i]["p"] + unit(ppq[i]["t"] - ppq[i]["p"])*s[i] for i in range(len(s))]
-    ps = sum(pp)/n
-    var = sum([np.dot(q - ps, q - ps) for q in pp])/n
-    print("resultant points: {}".format(pp))
-    print("average: {}".format(sum(pp)/n))
-    print("deviation: {}".format(np.sqrt(var)))
+        print(pq)
+        ppq = [points[j] for j in pq]
+        s = solve_system(ppq)
+        print("s: {}".format(s))
+        pp = [ppq[i]["p"] + unit(ppq[i]["t"] - ppq[i]["p"])*s[i] for i in range(len(s))]
+        ps = sum(pp)/n
+        var = sum([np.dot(q - ps, q - ps) for q in pp])/n
+        print("resultant points: {}".format(pp))
+        print("average: {}".format(sum(pp)/n))
+        print("deviation: {}".format(np.sqrt(var)))
